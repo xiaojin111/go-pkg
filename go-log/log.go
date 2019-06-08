@@ -7,6 +7,8 @@ import (
 	golog "github.com/go-log/log/log"
 )
 
+// Port from https://github.com/micro/go-micro/blob/master/util/log/log.go
+
 var (
 	// the local logger
 	logger log.Logger = golog.New()
