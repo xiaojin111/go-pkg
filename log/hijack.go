@@ -1,4 +1,4 @@
-package logger
+package log
 
 import (
 	microlog "github.com/micro/go-micro/util/log"
