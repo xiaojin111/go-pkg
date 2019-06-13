@@ -59,3 +59,7 @@ func Fatal(v ...interface{}) {
 func Fatalf(format string, v ...interface{}) {
 	std.Fatalf(format, v...)
 }
+
+func SetLevel(level logrus.Level) {
+	std.SetLevel(level)
+}
