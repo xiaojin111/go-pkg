@@ -17,11 +17,11 @@ type NormalizeMacTestTestSuite struct {
 // TestNormalizeMac 返回规范化的 MAC 地址
 func (suite *NormalizeMacTestTestSuite) TestNormalizeMac() {
 	t := suite.T()
-	mac := "304511440CCF"
+	mac := "30:45:11:44:0C:CF"
 	ret := NormalizeMac(mac)
 	hexMac, _ := strconv.ParseUint(ret, 16, 64)
 	fmt.Println(hexMac)
-	assert.Equal(t, "0CB2B717B18D", ret)
+	assert.Equal(t, "304511440CCF", ret)
 
 }
 
