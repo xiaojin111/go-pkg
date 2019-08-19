@@ -27,6 +27,11 @@ go-mod-tidy:
 	# @git --no-pager diff-index --quiet HEAD
 .PHONY: go-mod-tidy
 
+# Run all the linters
+lint:
+	@./bin/golangci-lint run
+.PHONY: lint
+
 # Go build all
 build:
 	@go build ./... > /dev/null
@@ -38,7 +43,7 @@ test:
 .PHONY: test
 
 # Run all code checks
-ci: go-update build test
+ci: go-update lint build test
 .PHONY: ci
 
 .DEFAULT_GOAL := ci

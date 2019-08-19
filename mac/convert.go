@@ -4,9 +4,7 @@ import "strings"
 
 // NormalizeMac 返回规范化的 MAC 地址。所有字母大写，去除冒号分隔符与 0x 前缀。
 func NormalizeMac(mac string) string {
-	var ret string
-
-	ret = strings.ToUpper(mac)
+	ret := strings.ToUpper(mac)
 
 	// 去除 0x 开头标记
 	ret = strings.TrimPrefix(ret, "0X")
