@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	github.com/go-sql-driver/mysql v1.4.1
+	github.com/jinzhu/gorm v1.9.10
 	github.com/micro/go-micro v1.8.3
 	github.com/miekg/dns v1.1.16 // indirect
 	github.com/rs/xid v1.2.1
