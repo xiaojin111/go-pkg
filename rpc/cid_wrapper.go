@@ -2,22 +2,15 @@ package rpc
 
 import (
 	"context"
-	"net/http"
 
 	"github.com/micro/go-micro/server"
 )
-
-// CidFromRequest 从 Request 中提取 cid
-func CidFromRequest(req server.Request) string {
-	cid := req.Header()[http.CanonicalHeaderKey(MetaCidKey)]
-	return cid
-}
 
 // CidWrapper is a handler wrapper that generate a new cid if cid is not found from request
 func CidWrapper(fn server.HandlerFunc) server.HandlerFunc {
 
 	return func(ctx context.Context, req server.Request, rsp interface{}) error {
-		cid := CidFromRequest(req)
+		cid := CidFromContext(ctx)
 		// 如果没有找到 cid，则生成一个新的
 		if cid == "" {
 			cid = NewCid()
