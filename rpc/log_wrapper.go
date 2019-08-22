@@ -26,7 +26,7 @@ const (
 
 // ContextLogger 打印ctx中的cid
 func ContextLogger(ctx context.Context) *logrus.Entry {
-	cid := ContextGetCid(ctx)
+	cid := CidFromContext(ctx)
 	return log.WithField(logCidKey, cid)
 }
 
@@ -40,7 +40,7 @@ func LogWrapper(fn server.HandlerFunc) server.HandlerFunc {
 		//no time.Since in order to format it well after
 		end := time.Now()
 		latency := end.Sub(start)
-		cid := ContextGetCid(ctx)
+		cid := CidFromContext(ctx)
 
 		// l.Infof("%s %s", rpcMetadata, flatMetadata(md))
 

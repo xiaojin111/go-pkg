@@ -27,6 +27,11 @@ go-mod-tidy:
 	# @git --no-pager diff-index --quiet HEAD
 .PHONY: go-mod-tidy
 
+# Format go files
+format:
+	@goimports -w ./
+.PHONY: format
+
 # Run all the linters
 lint:
 	@./bin/golangci-lint run
