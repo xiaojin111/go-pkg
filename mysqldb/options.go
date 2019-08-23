@@ -28,6 +28,10 @@ type Options struct {
 
 	// 区域设置
 	Locale string
+
+	// 阻止全局更新
+	// 开启选项时，将禁止没有 WHERE 语句的 DELETE 或 UPDATE 操作执行，否则抛出 error
+	BlockGlobalUpdate bool
 }
 
 // Option 是设置 Options 的函数
@@ -99,12 +103,13 @@ func Locale(locale string) Option {
 // DefaultOptions 返回默认配置的 Options
 func DefaultOptions() Options {
 	return Options{
-		Address:        "localhost:3306",
-		EnableLog:      false,
-		MaxConnections: 1,
-		Charset:        "utf8mb4",
-		ParseTime:      true,
-		Locale:         "UTC", // 注意: 这里字母必须大写，否则找不到 Timezone 文件
+		Address:           "localhost:3306",
+		EnableLog:         false,
+		MaxConnections:    1,
+		Charset:           "utf8mb4",
+		ParseTime:         true,
+		Locale:            "UTC", // 注意: 这里字母必须大写，否则找不到 Timezone 文件
+		BlockGlobalUpdate: true,
 	}
 }
 

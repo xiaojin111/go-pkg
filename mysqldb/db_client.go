@@ -2,6 +2,7 @@ package mysqldb
 
 import (
 	"fmt"
+	"time"
 
 	// import mysql driver fo gorm
 	_ "github.com/go-sql-driver/mysql"
@@ -39,7 +40,13 @@ func NewDbClient(opts ...Option) (*DbClient, error) {
 	db.SingularTable(true)
 	db.DB().SetMaxOpenConns(options.MaxConnections)
 	db.SetLogger(gormlogger.New(options.Address, options.Database))
-	db.LogMode(options.EnableLog)
+	db = db.LogMode(options.EnableLog)
+	// 禁止没有 WHERE 语句的 DELETE 或 UPDATE 操作执行，否则抛出 error
+	db = db.BlockGlobalUpdate(options.BlockGlobalUpdate)
+	// 重置 SetNow 的时间获取方式为总是获取UTC时区时间
+	db = db.SetNowFuncOverride(func() time.Time {
+		return time.Now().UTC()
+	})
 
 	return &DbClient{db, options}, nil
 }
