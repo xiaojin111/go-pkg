@@ -16,10 +16,7 @@ type DbClient struct {
 	opts Options
 }
 
-// NewDbClient 根据传入的 options 返回一个新的 DbClient
-func NewDbClient(opts ...Option) (*DbClient, error) {
-
-	options := NewOptions(opts...)
+func Open(options Options) (*gorm.DB, error) {
 	// mysql 连接字符串格式:
 	// 	`username:password@tcp(localhost:3306)/db_name?charset=utf8mb4&parseTime=True&loc=utc`
 	connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=%s&parseTime=%t&loc=%s",
@@ -47,6 +44,17 @@ func NewDbClient(opts ...Option) (*DbClient, error) {
 	db = db.SetNowFuncOverride(func() time.Time {
 		return time.Now().UTC()
 	})
+
+	return db, nil
+}
+
+// NewDbClient 根据传入的 options 返回一个新的 DbClient
+func NewDbClient(opts ...Option) (*DbClient, error) {
+	options := NewOptions(opts...)
+	db, err := Open(options)
+	if err != nil {
+		return nil, err
+	}
 
 	return &DbClient{db, options}, nil
 }
