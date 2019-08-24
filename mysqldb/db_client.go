@@ -53,6 +53,10 @@ func Open(options Options) (*gorm.DB, error) {
 // NewDbClient 根据传入的 options 返回一个新的 DbClient
 func NewDbClient(opts ...Option) (*DbClient, error) {
 	options := NewOptions(opts...)
+	return NewDbClientFromOptions(options)
+}
+
+func NewDbClientFromOptions(options Options) (*DbClient, error) {
 	db, err := Open(options)
 	if err != nil {
 		return nil, err
