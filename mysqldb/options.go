@@ -5,6 +5,10 @@ type Options struct {
 	// 是否启用日志
 	EnableLog bool
 
+	// 连接超时
+	// The value must be a decimal number with a unit suffix ("ms", "s", "m", "h"), such as "30s", "0.5m" or "1m30s".
+	DialTimeout string
+
 	// 是否转换时间
 	ParseTime bool
 
@@ -26,6 +30,9 @@ type Options struct {
 	// 字符集
 	Charset string
 
+	// 字符排序
+	Collation string
+
 	// 区域设置
 	Locale string
 
@@ -36,6 +43,14 @@ type Options struct {
 
 // Option 是设置 Options 的函数
 type Option func(*Options)
+
+// DialTimeout 设置连接超时时间
+// The value must be a decimal number with a unit suffix ("ms", "s", "m", "h"), such as "30s", "0.5m" or "1m30s".
+func DialTimeout(timeout string) Option {
+	return func(o *Options) {
+		o.DialTimeout = timeout
+	}
+}
 
 // Address 设置服务器地址 - host:port
 func Address(addr string) Option {
@@ -86,6 +101,13 @@ func Charset(charset string) Option {
 	}
 }
 
+// Collation 设置字符集排序
+func Collation(collation string) Option {
+	return func(o *Options) {
+		o.Collation = collation
+	}
+}
+
 // ParseTime 设置转换时间
 func ParseTime(parseTime bool) Option {
 	return func(o *Options) {
@@ -100,13 +122,22 @@ func Locale(locale string) Option {
 	}
 }
 
+// BlockGlobalUpdate 设置是否阻止全局更新
+func BlockGlobalUpdate(block bool) Option {
+	return func(o *Options) {
+		o.BlockGlobalUpdate = block
+	}
+}
+
 // DefaultOptions 返回默认配置的 Options
 func DefaultOptions() Options {
 	return Options{
 		Address:           "localhost:3306",
+		DialTimeout:       "10s", // 默认连接超时时间为10秒
 		EnableLog:         false,
-		MaxConnections:    1,
+		MaxConnections:    0,
 		Charset:           "utf8mb4",
+		Collation:         "utf8mb4_general_ci",
 		ParseTime:         true,
 		Locale:            "UTC", // 注意: 这里字母必须大写，否则找不到 Timezone 文件
 		BlockGlobalUpdate: true,

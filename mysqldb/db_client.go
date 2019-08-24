@@ -5,9 +5,9 @@ import (
 	"time"
 
 	// import mysql driver fo gorm
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinmukeji/go-pkg/log/gormlogger"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 // DbClient 是数据访问管理器
@@ -18,15 +18,17 @@ type DbClient struct {
 
 func Open(options Options) (*gorm.DB, error) {
 	// mysql 连接字符串格式:
-	// 	`username:password@tcp(localhost:3306)/db_name?charset=utf8mb4&parseTime=True&loc=utc`
-	connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=%s&parseTime=%t&loc=%s",
+	// 	`username:password@tcp(localhost:3306)/db_name?charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=True&loc=utc&timeout=10s`
+	connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=%s&collation=%s&parseTime=%t&loc=%s&timeout=%s",
 		options.Username,
 		options.Password,
 		options.Address,
 		options.Database,
 		options.Charset,
+		options.Collation,
 		options.ParseTime,
-		options.Locale)
+		options.Locale,
+		options.DialTimeout)
 
 	db, err := gorm.Open("mysql", connStr)
 	if err != nil {
