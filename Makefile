@@ -48,7 +48,7 @@ test:
 .PHONY: test
 
 # Run all code checks
-ci: go-update lint build test
+ci: format lint build test
 .PHONY: ci
 
 .DEFAULT_GOAL := ci
