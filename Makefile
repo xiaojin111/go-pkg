@@ -27,6 +27,10 @@ go-mod-tidy:
 	# @git --no-pager diff-index --quiet HEAD
 .PHONY: go-mod-tidy
 
+generate:
+	@go generate ./...
+.PHONY: generate
+
 # Format go files
 format:
 	@goimports -w ./
@@ -48,7 +52,7 @@ test:
 .PHONY: test
 
 # Run all code checks
-ci: format lint build test
+ci: generate format lint build test
 .PHONY: ci
 
 .DEFAULT_GOAL := ci
