@@ -62,4 +62,5 @@ func Fatalf(format string, v ...interface{}) {
 
 func SetLevel(level logrus.Level) {
 	std.SetLevel(level)
+	hijackLevel(level)
 }
