@@ -2,8 +2,8 @@ SOURCE_FILES?=./...
 
 export PATH := ./bin:$(PATH)
 export GO111MODULE := on
-export GOPROXY := https://goproxy.cn
-
+export GOPROXY := https://goproxy.io,direct
+export GOPRIVATE := github.com/jinmukeji/*
 
 # Install all the build and lint dependencies
 setup:
