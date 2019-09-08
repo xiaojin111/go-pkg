@@ -30,6 +30,10 @@ func NewLogger() *Logger {
 	}
 }
 
+func (l *Logger) NewEntry() *logrus.Entry {
+	return logrus.NewEntry(l.Logger)
+}
+
 // Log implements go-log Log interface
 func (l *Logger) Log(v ...interface{}) {
 	l.Print(v...)
