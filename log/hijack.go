@@ -20,9 +20,9 @@ func hijackLevel(level logrus.Level) {
 	case logrus.InfoLevel:
 		l = microlog.LevelInfo
 	case logrus.WarnLevel:
-		l = microlog.LevelWarn
+		l = microlog.LevelError
 	case logrus.ErrorLevel:
-		l = microlog.LevelWarn
+		l = microlog.LevelError
 	case logrus.FatalLevel:
 		l = microlog.LevelFatal
 	case logrus.PanicLevel:
