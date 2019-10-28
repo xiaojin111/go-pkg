@@ -3,12 +3,14 @@ package aes
 import (
 	"bytes"
 	"testing"
+
+	"github.com/jinmukeji/go-pkg/crypto/rand"
 )
 
 func TestAESGCMEncrypt(t *testing.T) {
 
 	// 生成一个 key
-	key, _ := GenerateKey()
+	key, _ := rand.GenerateRecommendedKey()
 
 	type args struct {
 		key            []byte

@@ -4,6 +4,8 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"errors"
+
+	"github.com/jinmukeji/go-pkg/crypto/rand"
 )
 
 // AESGCMEncrypt 根据 key 将明文 plainText 进行 AES-GCM 加密，根据 additionalData 进行验证，返回密文
@@ -29,7 +31,7 @@ func AESGCMEncrypt(key, plainText, additionalData []byte) ([]byte, error) {
 		return nil, err
 	}
 
-	nonce, err := GenerateNonce(aesgcm.NonceSize())
+	nonce, err := rand.RandomBytes(aesgcm.NonceSize())
 	if err != nil {
 		return nil, err
 	}
