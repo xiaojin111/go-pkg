@@ -1,4 +1,4 @@
-package crypto
+package hash
 
 import (
 	"crypto/md5"    // nolint: gas
