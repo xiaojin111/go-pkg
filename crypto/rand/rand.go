@@ -4,7 +4,7 @@ import (
 	"crypto/rand"
 	"io"
 
-	"github.com/jinmukeji/go-pkg/crypto/base64"
+	"github.com/jinmukeji/go-pkg/v2/crypto/base64"
 )
 
 // RandomBytes returns securely generated random bytes.
