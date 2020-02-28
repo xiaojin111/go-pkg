@@ -1,8 +1,6 @@
 package log
 
 import (
-	"os"
-
 	"github.com/sirupsen/logrus"
 )
 
@@ -11,18 +9,7 @@ type Logger = logrus.Logger
 
 // NewLogger creates a new MicroLogger.
 func NewLogger() *Logger {
-	var l = &logrus.Logger{
-		Out:          os.Stderr,
-		Formatter:    DefaultTextFormatter(),
-		Hooks:        make(logrus.LevelHooks),
-		Level:        logrus.InfoLevel,
-		ExitFunc:     os.Exit,
-		ReportCaller: false,
-	}
-
-	// 默认值参考 logrus.Logger 设定
-	// https://godoc.org/github.com/sirupsen/logrus#Logger
-	return l
+	return newStdLogger()
 }
 
 func GetLevel() logrus.Level {
