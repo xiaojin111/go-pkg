@@ -7,22 +7,12 @@ import (
 )
 
 // DefaultTextFormatter returns a default formatter
-func DefaultTextFormatter() logrus.Formatter {
+func DefaultTextFormatter() *logrus.TextFormatter {
 	return &logrus.TextFormatter{
 		DisableColors:   false,
 		FullTimestamp:   true,
 		TimestampFormat: time.RFC3339, // "2006-01-02T15:04:05Z07:00"
 	}
-}
-
-// LogstashFormatter represents a Logstash format.
-// It has logrus.Formatter which formats the entry and logrus.Fields which
-// are added to the JSON message if not given in the entry data.
-//
-// Note: use the `DefaultFormatter` function to set a default Logstash formatter.
-type LogstashFormatter struct {
-	logrus.Formatter
-	logrus.Fields
 }
 
 var (
@@ -43,31 +33,16 @@ var (
 // "@timestamp" to the log time and "message" to the log message.
 //
 // Note: to set a different configuration use the `LogstashFormatter` structure.
-func NewLogstashFormatter(fields logrus.Fields) logrus.Formatter {
+func NewLogstashFormatter(fields logrus.Fields) *logrus.JSONFormatter {
 	for k, v := range logstashFields {
 		if _, ok := fields[k]; !ok {
 			fields[k] = v
 		}
 	}
 
-	return LogstashFormatter{
-		Formatter: &logrus.JSONFormatter{FieldMap: logstashFieldMap},
-		Fields:    fields,
-	}
+	return &logrus.JSONFormatter{FieldMap: logstashFieldMap}
 }
 
-func overwriteEntryFields(e *logrus.Entry, fields logrus.Fields) *logrus.Entry {
-	return e.WithFields(fields)
-}
-
-// Format formats an entry to a Logstash format according to the given Formatter and Fields.
-//
-// Note: the given entry is copied and not changed during the formatting process.
-func (f LogstashFormatter) Format(e *logrus.Entry) ([]byte, error) {
-	ne := overwriteEntryFields(e, f.Fields)
-	return f.Formatter.Format(ne)
-}
-
-func DefaultLogstashFormatter() logrus.Formatter {
+func DefaultLogstashFormatter() *logrus.JSONFormatter {
 	return NewLogstashFormatter(make(logrus.Fields))
 }
