@@ -7,12 +7,15 @@ import (
 // Logger is logrus.Logger.
 type Logger = logrus.Logger
 
+// Level is logrus.Level
+type Level = logrus.Level
+
 // NewLogger creates a new MicroLogger.
 func NewLogger() *Logger {
 	return newStdLogger()
 }
 
-func GetLevel() logrus.Level {
+func GetLevel() Level {
 	return std.GetLevel()
 }
 

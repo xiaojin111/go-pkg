@@ -1,6 +1,7 @@
 package log
 
 import (
+	"log"
 	"os"
 
 	"github.com/sirupsen/logrus"
@@ -13,6 +14,14 @@ var (
 
 func init() {
 	std = newStdLogger()
+
+	Hijack(std)
+}
+
+func Hijack(l *Logger) {
+	// 注入标准包 log 输出
+	log.SetOutput(l.Writer())
+	log.SetFlags(0)
 }
 
 func newStdLogger() *Logger {
