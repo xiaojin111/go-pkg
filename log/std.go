@@ -14,8 +14,6 @@ var (
 
 func init() {
 	std = newStdLogger()
-
-	Hijack(std)
 }
 
 func Hijack(l *Logger) {
