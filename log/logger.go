@@ -42,6 +42,10 @@ func GetLevel() Level {
 	return std.GetLevel()
 }
 
+func SetLevel(level Level) {
+	std.SetLevel(level)
+}
+
 func ParseLevel(lvl string) (Level, error) {
 	return logrus.ParseLevel(lvl)
 }
