@@ -7,24 +7,29 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/jinmukeji/go-pkg/v2/sqs-worker"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
+	sqsworker "github.com/jinmukeji/go-pkg/v2/sqs-worker"
+)
+
+const (
+	Endpoint  = "http://localhost:4566"
+	QueueName = "task-queue.fifo"
 )
 
 func main() {
 	sess := session.Must(session.NewSession(&aws.Config{
 		Credentials: credentials.NewStaticCredentials("foo", "var", ""),
 		Region:      aws.String(endpoints.UsEast1RegionID),
-		Endpoint:    aws.String("http://localhost:4576"),
+		Endpoint:    aws.String(Endpoint),
 	}))
 	sqsClient := sqs.New(sess)
 
 	conf := &sqsworker.Config{
-		QueueURL:   "http://localhost:4576/queue/task-queue.fifo",
+		QueueURL:   fmt.Sprintf("%s/queue/%s", Endpoint, QueueName),
 		WorkerSize: 3,
 	}
 
@@ -33,6 +38,7 @@ func main() {
 	worker := sqsworker.NewWorkerPool(ctx, conf, sqsClient)
 
 	worker.Run(sqsworker.HandlerFunc(func(msg *sqs.Message) error {
+		// Handler msg
 		fmt.Println(aws.StringValue(msg.Body))
 		return nil
 	}))

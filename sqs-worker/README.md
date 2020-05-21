@@ -6,7 +6,7 @@ Worker service which reads from a SQS queue pulls off job messages and processes
 
 Required config fields:
 
-- **QueueURL** - QueueUrl is a queue url, ex. http://localhost:4576/queue/task-queue.fifo
+- **QueueURL** - QueueUrl is a queue url, ex. http://localhost:4566/queue/task-queue.fifo
 
 Optionally the follow config variables can be provided.
 
@@ -23,12 +23,12 @@ func main() {
 	sess := session.Must(session.NewSession(&aws.Config{
 		Credentials: credentials.NewStaticCredentials("foo", "var", ""),
 		Region:      aws.String(endpoints.UsEast1RegionID),
-		Endpoint:    aws.String("http://localhost:4576"),
+		Endpoint:    aws.String("http://localhost:4566"),
 	}))
 	sqsClient := sqs.New(sess)
 
 	conf := &sqsworker.Config{
-		QueueURL:   "http://localhost:4576/queue/task-queue.fifo",
+		QueueURL:   "http://localhost:4566/queue/task-queue.fifo",
 		WorkerSize: 3,
 	}
 
@@ -61,16 +61,16 @@ func stopGracefully(cancel context.CancelFunc) {
 
 ```sh
 docker run --rm \
- 	-p 4576:4576 \
+ 	-p 4566:4566 \
  	-e SERVICES:sqs \
- 	-d --name sqs \
+ 	--name sqs \
  	localstack/localstack
 ```
 
 #### Create the SQS Queue:
 
 ```sh
-aws --endpoint http://localhost:4576 \
+aws --endpoint http://localhost:4566 \
 	sqs create-queue \
 	--queue-name task-queue.fifo \
 	--attributes '{"FifoQueue": "true", "ContentBasedDeduplication":"true"}'
@@ -79,15 +79,15 @@ aws --endpoint http://localhost:4576 \
 #### Check the SQS Queue:
 
 ```sh
-aws --endpoint http://localhost:4576 sqs list-queues
+aws --endpoint http://localhost:4566 sqs list-queues
 ```
 
 #### Add messages to the SQS Queue:
 
 ```sh
-aws --endpoint http://localhost:4576 \
+aws --endpoint http://localhost:4566 \
 	sqs send-message \
-	--queue-url http://localhost:4576/queue/task-queue.fifo \
+	--queue-url http://localhost:4566/queue/task-queue.fifo \
 	--message-body '{"msg": "hello"}' \
 	--message-group-id "a-string"
 ```
@@ -126,3 +126,4 @@ or use `sh ./gen_messages.sh` to generate 100 messages and send it to a queue
 
     Process finished with exit code 0
 ```
+
