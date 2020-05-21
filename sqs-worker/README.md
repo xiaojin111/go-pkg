@@ -6,7 +6,7 @@ Worker service which reads from a SQS queue pulls off job messages and processes
 
 Required config fields:
 
-- **QueueURL** - QueueUrl is a queue url, ex. http://localhost:4566/queue/task-queue.fifo
+- **QueueURL** - QueueUrl is a queue url, ex. http://localhost:4566/queue/task-queue
 
 Optionally the follow config variables can be provided.
 
@@ -18,44 +18,7 @@ Optionally the follow config variables can be provided.
 
 ## Usage
 
-```go
-func main() {
-	sess := session.Must(session.NewSession(&aws.Config{
-		Credentials: credentials.NewStaticCredentials("foo", "var", ""),
-		Region:      aws.String(endpoints.UsEast1RegionID),
-		Endpoint:    aws.String("http://localhost:4566"),
-	}))
-	sqsClient := sqs.New(sess)
-
-	conf := &sqsworker.Config{
-		QueueURL:   "http://localhost:4566/queue/task-queue.fifo",
-		WorkerSize: 3,
-	}
-
-	ctx, cancel := context.WithCancel(context.Background())
-
-	worker := sqsworker.NewWorkerPool(ctx, conf, sqsClient)
-
-	worker.Run(sqsworker.HandlerFunc(func(msg *sqs.Message) error {
-		fmt.Println(aws.StringValue(msg.Body))
-		return nil
-	}))
-
-	go stopGracefully(cancel)
-
-	worker.WaitForWorkersDone()
-
-}
-
-func stopGracefully(cancel context.CancelFunc) {
-	// Wait for a signal to quit:
-	signalChan := make(chan os.Signal, 1)
-	signal.Notify(signalChan, os.Interrupt, os.Kill, syscall.SIGTERM)
-	<-signalChan
-	fmt.Println("Stopping sqs workers gracefully...")
-	cancel()
-}
-```
+参见 [example/main.go](./example/main.go)
 
 ### Run SQS Servce (localstack) from DockerHub:
 
@@ -72,8 +35,8 @@ docker run --rm \
 ```sh
 aws --endpoint http://localhost:4566 \
 	sqs create-queue \
-	--queue-name task-queue.fifo \
-	--attributes '{"FifoQueue": "true", "ContentBasedDeduplication":"true"}'
+	--queue-name task-queue \
+	--attributes '{"ContentBasedDeduplication":"true"}'
 ```
 
 #### Check the SQS Queue:
@@ -87,9 +50,8 @@ aws --endpoint http://localhost:4566 sqs list-queues
 ```sh
 aws --endpoint http://localhost:4566 \
 	sqs send-message \
-	--queue-url http://localhost:4566/queue/task-queue.fifo \
-	--message-body '{"msg": "hello"}' \
-	--message-group-id "a-string"
+	--queue-url http://localhost:4566/queue/task-queue \
+	--message-body '{"msg": "hello"}'
 ```
 
 or use `sh ./gen_messages.sh` to generate 100 messages and send it to a queue

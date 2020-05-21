@@ -13,14 +13,18 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	sqsworker "github.com/jinmukeji/go-pkg/v2/sqs-worker"
+
+	"github.com/jinmukeji/go-pkg/v2/log"
 )
 
 const (
 	Endpoint  = "http://localhost:4566"
-	QueueName = "task-queue.fifo"
+	QueueName = "task-queue"
 )
 
 func main() {
+	log.SetLevel(log.DebugLevel)
+
 	sess := session.Must(session.NewSession(&aws.Config{
 		Credentials: credentials.NewStaticCredentials("foo", "var", ""),
 		Region:      aws.String(endpoints.UsEast1RegionID),
