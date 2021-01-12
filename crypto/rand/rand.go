@@ -31,7 +31,7 @@ const (
 	MaskLetterSymbolDigits = "!@#$%^&*()0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 )
 
-// RandomString returns a securely generated random string.
+// RandomString returns a securely generated random digits string.
 // It will return an error if the system's secure random
 // number generator fails to function correctly, in which
 // case the caller should not continue.
@@ -39,7 +39,15 @@ func RandomString(n int) (string, error) {
 	return RandomStringWithMask(MaskLetterSymbolDigits, n)
 }
 
-// GenerateRandomStringWithMask returns a securely generated random string with a mask string.
+// RandomString returns a securely generated random string.
+// It will return an error if the system's secure random
+// number generator fails to function correctly, in which
+// case the caller should not continue.
+func RandomDigits(n int) (string, error) {
+	return RandomStringWithMask(MaskDigits, n)
+}
+
+// RandomStringWithMask returns a securely generated random string with a mask string.
 // It will return an error if the system's secure random
 // number generator fails to function correctly, in which
 // case the caller should not continue.
