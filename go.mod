@@ -1,4 +1,4 @@
-module github.com/jt-hralth-or/go-pkg/v2
+module github.com/jinmukeji/go-pkg/v2
 
 go 1.14
 
