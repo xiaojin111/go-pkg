@@ -3,7 +3,7 @@ module gitee.com/jt-heath/go-pkg/v2
 go 1.14
 
 replace (
-	github.com/jinmukeji/go-pkg/v2 => gitee.com/jt-heath/go-pkg/v2 v2.5.3 
+	github.com/jinmukeji/go-pkg/v2 => gitee.com/jt-heath/go-pkg/v2 v2.5.5 
 )
 
 require (
