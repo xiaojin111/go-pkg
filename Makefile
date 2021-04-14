@@ -4,7 +4,7 @@ export PATH := ./bin:$(PATH)
 export GOPATH := $(shell go env GOPATH)
 export GO111MODULE := on
 export GOPROXY := https://goproxy.io,direct
-export GOPRIVATE := github.com/jinmukeji/*
+export GOPRIVATE := gitee.com/jt-heath/*
 
 # Install all the build and lint dependencies
 setup:
