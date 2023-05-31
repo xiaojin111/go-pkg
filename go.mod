@@ -1,4 +1,4 @@
-module gitee.com/jt-heath/go-pkg/v2
+module github.com/xiaojin111/go-pkg/v2
 
 go 1.14
 
