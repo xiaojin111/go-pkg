@@ -5,7 +5,7 @@ import (
 	"crypto/cipher"
 	"errors"
 
-	"gitee.com/jt-heath/go-pkg/v2/crypto/rand"
+	"github.com/xiaojin111/go-pkg/v2/crypto/rand"
 )
 
 // AESGCMEncrypt 根据 key 将明文 plainText 进行 AES-GCM 加密，根据 additionalData 进行验证，返回密文

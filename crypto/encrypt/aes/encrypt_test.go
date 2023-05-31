@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"gitee.com/jt-heath/go-pkg/v2/crypto/rand"
+	"github.com/xiaojin111/go-pkg/v2/crypto/rand"
 )
 
 func TestAESGCMEncrypt(t *testing.T) {

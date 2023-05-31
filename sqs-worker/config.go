@@ -1,7 +1,7 @@
 package sqsworker
 
 import (
-	"gitee.com/jt-heath/go-pkg/v2/log"
+	"github.com/xiaojin111/go-pkg/v2/log"
 )
 
 const defaultMaxNumberOfMessage = 10
